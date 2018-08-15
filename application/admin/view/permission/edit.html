@@ -1,0 +1,52 @@
+{extend name="public:base" /}
+{block name="body"}
+<div class="main-div">
+    <form action="" method="post" name="theForm" enctype="multipart/form-data">
+        <table width="100%" id="general-table">
+            <tr>
+                <td class="label">权限名:</td>
+                <td>
+                    <input type='text' name='permission_name' maxlength="20" value='{$data.permission_name}' size='27' /> <font color="red">*</font>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">控制器名:</td>
+                <td>
+                    <input type='text' name='controller_name' maxlength="20" value='{$data.controller_name}' size='27' /> <font color="red">*</font>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">方法操作名:</td>
+                <td>
+                    <input type='text' name='action_name' maxlength="20" value='{$data.action_name}' size='27' /> <font color="red">*</font>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">是否导航显示:</td>
+                <td>
+                    <input type='radio' {eq name="$data.is_show" value="1"}checked{/eq} name="is_show" value="1"/>显示&nbsp;&nbsp;
+                    <input type='radio' {eq name="$data.is_show" value="0"}checked{/eq} name="is_show" value="0"/>不显示
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">上级分类:</td>
+                <td>
+                    <select name="parent_id">
+                        <option value="0">请选择...</option>
+                        {volist name='list' id='vo'}
+                        <option value="{$vo.id}" {eq name="$data.parent_id" value="$vo.id"}selected{/eq}>{$vo.lv|str_repeat="--",###}{$vo.permission_name}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div class="button-div">
+            <input type="submit" value=" 确定 " />
+            <input type="reset" value=" 重置 " />
+        </div>
+    </form>
+</div>
+
+
+{/block}

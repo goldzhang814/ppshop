@@ -1,0 +1,21 @@
+{extend name='public:base' /}
+{block name="body"}
+<form action="" method="post" name="theForm" enctype="multipart/form-data">
+    <table  id="general-table" style="margin-left: 500px">
+        <tr>
+            <th class="label" width="60px">级别:</th>
+            <th class="label">经验值:</th>
+        </tr>
+        <tr>
+            <td  style="text-align:center;">v{$data.level}</td>
+            <td>
+                <input type='text' name='score'  value='{$data.score}' />
+            </td>
+        </tr>
+    </table>
+    <div class="button-div">
+        <input type="submit" value=" 确定 " />
+        <input type="reset" value=" 重置 " />
+    </div>
+</form>
+{/block}

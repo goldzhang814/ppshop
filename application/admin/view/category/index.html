@@ -1,0 +1,30 @@
+<!-- $Id: category_list.htm 17019 2010-01-29 10:10:34Z liuhui $ -->
+{extend name="public:base" /}
+{block name="body"}
+<form method="post" action="" name="listForm">
+    <div class="list-div" id="listDiv">
+        <table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+            <tr>
+                <th>分类名称</th>
+                <th>是否推荐</th>
+                <th>操作</th>
+            </tr>
+            {volist name="tree" id='val'}
+            <tr align="center" class="0">
+                <td align="left" class="first-cell" >
+                
+                <img src="__ADMIN__/Images/menu_minus.gif" width="9" height="9" border="0" style="margin-left:0em" />
+                <span><a href="javascript:void(0)">{$val.lv|str_repeat='--',###}{$val.cname}</a></span>
+                </td>
+                <td width="15%"><img src="__ADMIN__/Images/yes.gif"  /></td>
+                
+                <td width="30%" align="center">
+                <a href='{:url("edit","id=".$val.id)}'>编辑</a> |
+                <a href='{:url("delete","id=".$val.id)}' title="移除" onclick="">移除</a>
+                </td>
+            </tr>
+            {/volist}
+        </table>
+    </div>
+</form>
+{/block}

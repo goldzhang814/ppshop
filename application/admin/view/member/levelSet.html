@@ -1,0 +1,64 @@
+{extend name="public:base" /}
+{block name="body"}
+<div class="list-div" >
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div style="width: 1050px;height: 100px;"><div style="margin: 20px 300px;">
+            <h3>会员级别设置</h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;会员级别设置”提交后，当会员符合某个级别后将自动升至该级别，请谨慎设置会员级别
+            建议：一、级别应该是逐层递增，例如“级别2”所需经验值高于“级别1”；二、设置的第一个级别所需经验值应为0；三、信息应填写完整</div>
+        </div>
+
+        <table  cellspacing="1" cellpadding="2" id="list-table" style="margin-left: 400px;width: 400px;">
+            <thead>
+                <tr>
+                   
+                    <th>级别</th>
+                    <th>经验值</th>
+                    <th colspan="2">操作</th>
+                </tr>
+            </thead>
+            <tbody id="tab">
+            {volist name="data" id="vo" key='k'}
+                <tr>
+                    <td>v{$vo.level}</td>
+                    <td><input type="text" name="score[]" value="{$vo.score}"></td>
+                    <td><a href="{:url('edit','id='.$vo.id)}">编辑</a></td>
+                    {eq name="$k" value="$num"}
+                    <td><a href="{:url('delete','id='.$vo.id)}">删除</a></td>
+                    {/eq}
+                </tr>
+            {/volist}
+            </tbody>
+
+        </table>
+        <div style="margin-left: 400px;"><input type="button" value="+增加级别" onclick="addLevel()"/></div>
+        <div class="button-div">
+            <input type="submit" value=" 确定 " class="button"/>
+            <input type="reset" value=" 重置 " class="button" />
+        </div>
+    </form>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript">
+    function addLevel(){
+        var val=$('#tab tr:last-child td:first-child').html();
+        var str=String(val);
+        var value=1+parseInt(str.substring(1));
+        var lev='v'+String(value);
+        var newTr= $('#tab tr:first-child').clone();
+            newTr.children().first().html(lev);
+            newTr.children('td').last().children('a').removeAttr('href');
+            newTr.children('td').last().children('a').html('取消');
+            //给新增的tr设置取消事件
+            newTr.children('td').last().children('a').attr('onclick','cancel(this)');
+
+        $('#tab').append(newTr);
+    }
+    function cancel(obj){
+        $(obj).parent().parent().remove();
+    }
+</script>
+
+{/block}

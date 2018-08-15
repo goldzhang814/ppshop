@@ -1,0 +1,53 @@
+{volist name="addr" id='vo'}
+{eq name="$vo.default" value="1"}
+<div class="address_info">
+    <p>{$vo.receiver}  {$vo.phone} </p>
+    <p>{$vo.province} {$vo.city} {$vo.region} {$vo.street} </p>
+</div>
+{/eq}
+{/volist}
+<div class="address_select none">
+    <ul>
+        {volist name="addr" id='vo'}
+        <li {eq name="$vo.default" value='1'}class="cur"{/eq}>
+        <input type="radio" name="address" {if condition="$vo.default eq 1"}checked="checked"{/if} />{$vo.receiver}   {$vo.province} {$vo.city} {$vo.region} {$vo.street} {$vo.phone}
+        {eq name="$vo.default" value='1'}<span style="background-color: #9DADCE">默认地址</span>{/eq}
+        {eq name="$vo.default" value='0'}<a href="javascript:void(0);" class="setDefault" a-id="{$vo.id}" user-id="{$vo.user_id}">  设为默认地址</a>{/eq}
+        <a href="editAddr" a-id="{$vo.id}">编辑</a>
+        {eq name="$vo.default" value='0'}<a href="javascript:void(0);" class="delete" a-id="{$vo.id}" user-id="{$vo.user_id}">删除</a>{/eq}
+        </li>
+        {/volist}
+        <li><input type="radio" name="address" class="new_address"  />使用新地址</li>
+    </ul>
+    <form action="" class="none" name="address_form">
+        <ul>
+            <li>
+                <label for=""><span>*</span>收 货 人：</label>
+                <input type="text" name="" class="txt" />
+            </li>
+            <li>
+                <label for=""><span>*</span>所在地区：</label>
+                <select name="" id="prov">
+                    <option value="0">请选择</option>
+                </select>
+
+                <select name="" id="city">
+                    <option value="0">请选择</option>
+                </select>
+
+                <select name="" id="county">
+                    <option value="0">请选择</option>
+                </select>
+            </li>
+            <li>
+                <label for=""><span>*</span>详细地址：</label>
+                <input type="text" name="" class="txt address"  />
+            </li>
+            <li>
+                <label for=""><span>*</span>手机号码：</label>
+                <input type="text" name="" class="txt" />
+            </li>
+        </ul>
+    </form>
+    <a href="" class="confirm_btn"><span>保存收货人信息</span></a>
+</div>

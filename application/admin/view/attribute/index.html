@@ -1,0 +1,34 @@
+{extend name="public:base" /}
+{block name="body"}
+<form method="post" action="" name="listForm">
+    <div class="list-div" id="listDiv">
+        <table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+            <tr>
+                <th>属性名称</th>
+                <th>所属类型</th>
+                <th>属性类型</th>
+                <th>属性录入方式</th>
+                <th>属性默认值</th>
+                <th>操作</th>
+            </tr>
+            {volist name="data" id='val'}
+            <tr align="center" class="0">
+                <td align="left" class="first-cell" >
+                    <img src="__ADMIN__/Images/menu_minus.gif" width="9" height="9" border="0" style="margin-left:0em" />
+                    <span><a href="javascript:void(0)">{$val.attr_name}</a></span>
+                </td>
+                <td width="15%">{$val.type_name}</td>
+                <td width="15%">{eq name='$val.attr_type' value='1'}唯一属性{else}单选属性{/eq}</td>
+                <td width="15%">{eq name='$val.attr_input_type' value='1'}input输入方式{else}select输入方式{/eq}</td>
+                <td width="15%">{$val.attr_values}</td>
+
+                <td width="30%" align="center">
+                    <a href='{:url("edit","id=".$val.id)}'>编辑</a> |
+                    <a href='{:url("delete","id=".$val.id)}' title="移除" onclick="">移除</a>
+                </td>
+            </tr>
+            {/volist}
+        </table>
+    </div>
+</form>
+{/block}

@@ -1,0 +1,65 @@
+{extend name="public:base" /}
+{block name="body"}
+<form enctype="multipart/form-data" action="" method="post">
+    <table width="90%" id="general-table" align="center">
+        <tr>
+            <td class="label">属性名称：</td>
+            <td><input type="text" name="attr_name" value="" size="20" />
+                <span class="require-field">*</span></td>
+        </tr>
+
+        <tr>
+            <td class="label">所属类型：</td>
+            <td>
+                <select name="type_id">
+                    <option value="0">请选择...</option>
+                    {volist name='types' id="vo"}
+                    <option value="{$vo.id}"> {$vo.type_name}</option>
+                    {/volist}
+                </select>
+                <span class="require-field">*</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">属性类型：</td>
+            <td>
+                <input type="radio" name="attr_type" checked value="1" /> 唯一属性
+                <input type="radio" name="attr_type" value="2" />单选属性
+                <span>&nbsp;&nbsp;(备注：唯一属性为了描述商品的信息,单选属性时用于在商品购买时多个属性值选择一个)</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">属性录入方式：</td>
+            <td id="aa">
+                <input type="radio" name="attr_input_type" checked value="1" /> 文本输入
+                <input type="radio" name="attr_input_type" value="2" /> 选择框
+                <span>&nbsp;&nbsp;(备注：如属性不固定，请选择文本输入,选择框时属性值比较固定)</span>
+            </td>
+        </tr>
+
+        <tr id="tt">
+            <td class="label">属性默认值：</td>
+            <td>
+                <textarea name="attr_values" cols="40" rows="5" placeholder="备注:当属性录入方式为文本输入,此项不填写!"></textarea><span>每个属性值之间用逗号分隔</span>
+            </td>
+        </tr>
+    </table>
+    <div class="button-div">
+        <input type="submit" id="sub" onclick=" " value=" 确定 " class="button"/>
+        <input type="reset" value=" 重置 " class="button" />
+    </div>
+</form>
+{/block}
+{block name="js"}
+<script>
+    $(document).ready(function () {
+        $('#aa input[name=attr_input_type]').change(function () {
+           if($(this).val()==1){
+              $('#tt textarea').prop('disabled','disabled') ;
+           }else{
+               $('#tt textarea').removeProp('disabled');
+           }
+        })
+    })
+</script>
+{/block}

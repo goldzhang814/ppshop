@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ECSHOP 管理中心 - 商品列表 </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="__ADMIN__/Styles/general.css" rel="stylesheet" type="text/css" />
+<link href="__ADMIN__/Styles/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__ADMIN__/Js/jquery-1.8.3.min.js"></script>
+    <style type="text/css">
+        #page-table li{
+            list-style: none;
+            margin:  auto 14px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<h1>
+    <span class="action-span"><a href="{:url('add')}">添加新商品</a></span>
+    <span class="action-span1"><a href="">ECSHOP 管理中心</a></span>
+    <span id="search_id" class="action-span1"> - 商品列表 </span>
+    <div style="clear:both"></div>
+</h1>
+<div class="form-div">
+    <form action="" method="post" name="searchForm">
+        <img src="__ADMIN__/Images/icon_search.gif" width="26" height="22" border="0" alt="search" />
+        <!-- 分类 -->
+        <select name="cate_id">
+            <option value="0">所有分类</option>
+            {volist name='tree' id='vo'}
+            <option value="{$vo.id}" {if condition="$pick.cate_id eq $vo.id"}selected{/if}>{$vo.lv|str_repeat='--',###}{$vo.cname}</option>
+            {/volist}
+            
+        </select>
+
+        <!-- 推荐 -->
+
+        <select name="intro_type">
+            <option value="0"      {if condition="$pick.intro_type eq 'all'" }selected{/if}>全部</option>
+            <option value="is_rec" {if condition="$pick.intro_type eq 'is_rec'" }selected{/if}>推荐</option>
+            <option value="is_new" {if condition="$pick.intro_type eq 'is_new'" }selected{/if}>新品</option>
+            <option value="is_hot" {if condition="$pick.intro_type eq 'is_hot'" }selected{/if}>热销</option>
+        </select>
+        <!-- 上架 -->
+        <select name="is_sale">
+            <option value='2' {if condition="$pick.is_sale eq 2" }selected{/if}>全部</option>
+            <option value="1" {if condition="$pick.is_sale eq 1"  }selected{/if}>上架</option>
+            <option value="0" {if condition="$pick.is_sale eq 0"  }selected{/if}>下架</option>
+        </select>
+        <!-- 关键字 -->
+        关键字 <input type="text" name="keyword" size="15" {if condition="$pick.keyword neq null"}value="{$pick.keyword}"{/if}/>
+        <input type="submit" value=" 搜索 " class="button" />
+
+    </form>
+</div>
+
+<!-- 商品列表 -->
+<div style="width:100px;margin-left:1380px; ">
+    <a href="{:url('recycle')}"><img src="__ADMIN__/Images/icon_trash.gif" width="16" height="14" border="0" />回收站</a></div>
+
+    <div class="list-div" id="listDiv">
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th>编号</th>
+                <th>商品名称</th>
+                <th>分类</th>
+                <th>货号</th>
+                <th>售价</th>
+                <th>市场价格</th>
+                <th>上架</th>
+                <th>推荐</th>
+                <th>新品</th>
+                <th>热销</th>
+                <th>操作</th>
+            </tr>
+            {volist name='data' id='vo'}
+            <tr>
+                <td align="center">{$vo.id}</td>
+                <td align="center" class="first-cell"><span>{$vo.goods_name}</span></td>
+                <td align="center"><span>{$vo.cname}</span></td>
+                <td align="center"><span>{$vo.goods_sn}</span></td>
+                <td align="center"><span>{$vo.shop_price}</span></td>
+                <td align="center"><span>{$vo.market_price}</span></td>
+                <td align="center"><img src="__ADMIN__/Images/{eq name='vo.is_sale' value='1'}yes{else /}no{/eq}.gif "
+                                        onclick="changeStatus(this,{$vo.id},'is_sale')"/></td>
+                <td align="center"><img src="__ADMIN__/Images/{eq name='vo.is_rec' value='1'}yes{else /}no{/eq}.gif "
+                                        onclick="changeStatus(this,{$vo.id},'is_rec')"/></td>
+                <td align="center"><img src="__ADMIN__/Images/{eq name='vo.is_new' value='1'}yes{else /}no{/eq}.gif "
+                                        onclick="changeStatus(this,{$vo.id},'is_new')" /></td>
+                <td align="center"><img src="__ADMIN__/Images/{eq name='vo.is_hot' value='1'}yes{else /}no{/eq}.gif "
+                                        onclick="changeStatus(this,{$vo.id},'is_hot')" /></td>
+                <td align="center">
+                <!--<a href="{:url('display','id='.$vo.id)}" target="_blank" title="查看">
+                    <img src="__ADMIN__/Images/icon_view.gif" width="16" height="16" border="0" /></a>-->
+                <a href="{:url('edit','goods_id='.$vo.id)}" title="编辑"><img src="__ADMIN__/Images/icon_edit.gif" width="16" height="16" border="0" /></a>
+                <a href="#" onclick="toRecycle(this,{$vo.id})" title="回收站"><img src="__ADMIN__/Images/icon_trash.gif" width="16" height="16" border="0" /></a>
+                </td>
+            </tr>
+            {/volist}
+
+        </table>
+
+        <!-- 分页开始 -->
+        <table id="page-table" cellspacing="0">
+            <tr>
+                <td width="30%">&nbsp;</td>
+                <td align="center" nowrap="true">
+                    {$data->render()}
+                </td>
+            </tr>
+        </table>
+    <!-- 分页结束 -->
+    </div>
+
+
+<div id="footer">
+共执行 7 个查询，用时 0.028849 秒，Gzip 已禁用，内存占用 3.219 MB<br />
+版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
+</body>
+<script type="text/javascript">
+    function toRecycle(obj,goods_id){
+
+        $.ajax({
+            url:'{:url("toRecycle")}',
+            type:'post',
+            data:{id:goods_id},
+            success:function(data){
+                if(data.flag==0){
+                    alert('操作失败');
+                }else{
+                    //$(obj).parent().parent().remove();
+                    window.location.reload();
+                }
+
+            }
+
+        })
+    }
+    function changeStatus(obj,goods_id,field) {
+        $.ajax({
+            url:'{:url("changeStatus")}',
+            type:'post',
+            data:{goods_id:goods_id,field:field},
+            success:function(data){
+                if (data.status==0){
+                   alert('操作失败');
+                   return;
+                }
+
+                if(data.imgStatus==1){
+                    $(obj).attr('src','__ADMIN__/Images/yes.gif');
+                }else {
+                    $(obj).attr('src','__ADMIN__/Images/no.gif');
+                }
+            }
+        });
+
+
+    }
+</script>
+</html>

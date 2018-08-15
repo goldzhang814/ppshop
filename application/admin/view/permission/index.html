@@ -1,0 +1,33 @@
+{extend name="public:base" /}
+{block name="body"}
+<form method="post" action="" name="listForm">
+    <div class="list-div" id="listDiv">
+        <table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+            <tr>
+                <th>编号</th>
+                <th>权限名称</th>
+                <th>控制器名称</th>
+                <th>方法名称</th>
+                <th>是否导航栏显示</th>
+                <th>操作</th>
+
+            </tr>
+            {volist name="data" id='val' key='k'}
+            <tr align="center" class="0">
+                <td width="20%">{$k}</td>
+                <td width="20%">{$val.lv|str_repeat="----",###}{$val.permission_name}</td>
+                <td align="center" class="first-cell" ><span>{$val.controller_name}</span></td>
+                <td align="center" class="first-cell" ><span>{$val.action_name}</span></td>
+                <td align="center" class="first-cell" ><span>{eq name='val.is_show' value='1'}显示{else /}不显示{/eq}</span></td>
+                <td width="15%" align="center">
+
+                    <a href='{:url("edit","id=".$val.id)}'>编辑</a> |
+                    <a href='{:url("delete","id=".$val.id)}' title="移除" onclick="">移除</a>
+
+                </td>
+            </tr>
+            {/volist}
+        </table>
+    </div>
+</form>
+{/block}

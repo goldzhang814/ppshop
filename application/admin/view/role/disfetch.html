@@ -1,0 +1,46 @@
+{extend name="public:base" /}
+{block name="body"}
+<div class="list-div" id="listDiv">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+            <thead>
+                <tr>
+                    <th width="40"><input type="checkbox" id="selectAll" />全选</th>
+                    <th>顶级权限</th>
+                    <th colspan="4">子权限</th>
+                </tr>
+            </thead>
+            <tbody>
+               {volist name="rules" id="vo"}
+               {eq name='vo.parent_id' value='0'}
+                <tr align="center">
+                    <td>
+                        <input type="checkbox" class="top" name="rule[]" value="{$vo.id}"
+                        {in name="vo.id" value="$menus"}checked="checked"{/in} />
+                    </td>
+                    <td><b>{$vo.permission_name}</b></td>
+                    {volist name="rules" id="v"}
+                     {eq name="v.parent_id" value="$vo.id"}
+                    <td>
+                        <input type="checkbox" class="child" name="rule[]" value="{$v.id}"
+                         {in name="v.id" value="$menus"}checked="checked"{/in}/>{$v.permission_name}&nbsp;
+
+                    </td>
+                    {/eq}
+                    {/volist}
+                </tr>
+                {/eq}
+                {/volist}
+
+                <tr>
+                    <td colspan="6" align="center">
+                        <input type="hidden" name="a" value="" />
+                        <button type="submit" class="btn btn-default">表单提交</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </form>
+</div>
+{/block}
